@@ -1,0 +1,2327 @@
+```html
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>VOX Web</title>
+
+
+    <style>
+
+        /* ==========================================
+           VARIABLES
+           ========================================== */
+
+        :root {
+
+            --purple: #9b59ff;
+            --purple-dark: #7742bd;
+
+            --bg: #080811;
+
+            --panel: rgba(18, 16, 31, 0.88);
+            --panel2: rgba(30, 27, 52, 0.90);
+
+            --muted: #aaa4bd;
+
+            --border:
+                rgba(155, 89, 255, 0.18);
+
+        }
+
+
+        /* ==========================================
+           GENERAL
+           ========================================== */
+
+        * {
+
+            box-sizing: border-box;
+
+            margin: 0;
+
+            padding: 0;
+
+        }
+
+
+        html,
+        body {
+
+            width: 100%;
+            height: 100%;
+
+            overflow: hidden;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: var(--bg);
+
+            color: white;
+
+        }
+
+
+        /* ==========================================
+           FONDO
+           ========================================== */
+
+        #background {
+
+            position: fixed;
+
+            inset: 0;
+
+            z-index: 0;
+
+            background-image:
+
+                linear-gradient(
+                    rgba(8, 8, 17, 0.72),
+                    rgba(8, 8, 17, 0.82)
+                ),
+
+                url("/assets/images/fondo.jpg");
+
+            background-size: cover;
+
+            background-position: center;
+
+            background-repeat: no-repeat;
+
+            filter: saturate(1.1);
+
+        }
+
+
+        #background::after {
+
+            content: "";
+
+            position: absolute;
+
+            inset: 0;
+
+            background:
+
+                radial-gradient(
+                    circle at center,
+                    rgba(155, 89, 255, 0.10),
+                    transparent 60%
+                );
+
+            pointer-events: none;
+
+        }
+
+
+        /* ==========================================
+           APP
+           ========================================== */
+
+        .app {
+
+            position: relative;
+
+            z-index: 1;
+
+            width: 100%;
+
+            height: 100vh;
+
+            display: flex;
+
+            flex-direction: column;
+
+            background:
+                rgba(8, 8, 17, 0.18);
+
+        }
+
+
+        /* ==========================================
+           HEADER
+           ========================================== */
+
+        header {
+
+            height: 75px;
+
+            min-height: 75px;
+
+            padding:
+                0 25px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            background:
+                rgba(8, 8, 17, 0.78);
+
+            border-bottom:
+                1px solid var(--border);
+
+            backdrop-filter:
+                blur(18px);
+
+        }
+
+
+        .brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+        }
+
+
+        .logo {
+
+            width: 45px;
+
+            height: 45px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 14px;
+
+            background:
+
+                linear-gradient(
+                    135deg,
+                    #8e44ad,
+                    #9b59ff
+                );
+
+            font-size: 22px;
+
+            font-weight: 900;
+
+            box-shadow:
+
+                0 0 30px
+                rgba(
+                    155,
+                    89,
+                    255,
+                    0.30
+                );
+
+        }
+
+
+        .brand-name {
+
+            font-size: 24px;
+
+            font-weight: 900;
+
+            letter-spacing: 2px;
+
+        }
+
+
+        .status {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            font-size: 11px;
+
+            font-weight: bold;
+
+            color: #bdb7cc;
+
+        }
+
+
+        .status-dot {
+
+            width: 8px;
+
+            height: 8px;
+
+            border-radius: 50%;
+
+            background: #53e88b;
+
+            box-shadow:
+
+                0 0 12px
+                rgba(
+                    83,
+                    232,
+                    139,
+                    0.8
+                );
+
+        }
+
+
+        /* ==========================================
+           CHAT
+           ========================================== */
+
+        #chat {
+
+            flex: 1;
+
+            overflow-y: auto;
+
+            padding:
+                30px 20px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 12px;
+
+            scroll-behavior: smooth;
+
+        }
+
+
+        #chat::-webkit-scrollbar {
+
+            width: 7px;
+
+        }
+
+
+        #chat::-webkit-scrollbar-thumb {
+
+            background:
+                rgba(
+                    155,
+                    89,
+                    255,
+                    0.35
+                );
+
+            border-radius: 10px;
+
+        }
+
+
+        /* ==========================================
+           WELCOME
+           ========================================== */
+
+        .welcome {
+
+            margin: auto;
+
+            text-align: center;
+
+            max-width: 650px;
+
+            padding: 30px;
+
+            animation:
+                welcomeAppear
+                0.6s
+                ease;
+
+        }
+
+
+        .welcome-logo {
+
+            width: 90px;
+
+            height: 90px;
+
+            margin:
+                0 auto 20px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 25px;
+
+            background:
+
+                linear-gradient(
+                    135deg,
+                    #8e44ad,
+                    #9b59ff
+                );
+
+            font-size: 38px;
+
+            font-weight: 900;
+
+            box-shadow:
+
+                0 0 45px
+                rgba(
+                    155,
+                    89,
+                    255,
+                    0.35
+                );
+
+        }
+
+
+        .welcome h1 {
+
+            font-size: 38px;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        .welcome p {
+
+            color: var(--muted);
+
+            font-size: 15px;
+
+            line-height: 1.6;
+
+        }
+
+
+        @keyframes welcomeAppear {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(15px);
+
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+
+            }
+
+        }
+
+
+        /* ==========================================
+           MENSAJES
+           ========================================== */
+
+        .message {
+
+            max-width: 75%;
+
+            padding:
+                14px 17px;
+
+            border-radius: 16px;
+
+            line-height: 1.5;
+
+            font-size: 15px;
+
+            animation:
+                appear
+                0.25s
+                ease;
+
+            word-wrap: break-word;
+
+        }
+
+
+        .message.vox {
+
+            align-self: flex-start;
+
+            background:
+                var(--panel2);
+
+            border:
+                1px solid
+                rgba(
+                    155,
+                    89,
+                    255,
+                    0.15
+                );
+
+            backdrop-filter:
+                blur(12px);
+
+        }
+
+
+        .message.user {
+
+            align-self: flex-end;
+
+            background:
+
+                linear-gradient(
+                    135deg,
+                    #7742bd,
+                    #9b59ff
+                );
+
+            color: white;
+
+            box-shadow:
+
+                0 5px 20px
+                rgba(
+                    155,
+                    89,
+                    255,
+                    0.15
+                );
+
+        }
+
+
+        .sender {
+
+            font-size: 11px;
+
+            font-weight: bold;
+
+            opacity: 0.7;
+
+            margin-bottom: 5px;
+
+        }
+
+
+        @keyframes appear {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(8px);
+
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+
+            }
+
+        }
+
+
+        /* ==========================================
+           PARTE INFERIOR
+           ========================================== */
+
+        .input-area {
+
+            padding:
+                15px 20px 20px;
+
+            background:
+                rgba(
+                    8,
+                    8,
+                    17,
+                    0.86
+                );
+
+            border-top:
+                1px solid var(--border);
+
+            backdrop-filter:
+                blur(18px);
+
+        }
+
+
+        /* ==========================================
+           REPRODUCTOR
+           ========================================== */
+
+        .music-player {
+
+            width: 100%;
+
+            max-width: 1000px;
+
+            margin:
+                0 auto 10px;
+
+            padding:
+                10px 14px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            background:
+                rgba(
+                    30,
+                    27,
+                    52,
+                    0.90
+                );
+
+            border:
+                1px solid
+                rgba(
+                    155,
+                    89,
+                    255,
+                    0.18
+                );
+
+            border-radius: 14px;
+
+            backdrop-filter:
+                blur(15px);
+
+        }
+
+
+        .music-info {
+
+            flex: 1;
+
+            min-width: 0;
+
+            padding-left: 5px;
+
+        }
+
+
+        .music-title {
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            white-space: nowrap;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+
+        }
+
+
+        .music-subtitle {
+
+            color: var(--muted);
+
+            font-size: 11px;
+
+            margin-top: 3px;
+
+        }
+
+
+        /* ==========================================
+           INPUT
+           ========================================== */
+
+        .input-box {
+
+            max-width: 1000px;
+
+            margin: auto;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            padding: 7px;
+
+            background:
+                var(--panel2);
+
+            border:
+                1px solid
+                rgba(
+                    155,
+                    89,
+                    255,
+                    0.20
+                );
+
+            border-radius: 17px;
+
+            backdrop-filter:
+                blur(15px);
+
+        }
+
+
+        #input {
+
+            flex: 1;
+
+            min-width: 0;
+
+            padding: 12px;
+
+            background: transparent;
+
+            border: none;
+
+            outline: none;
+
+            color: white;
+
+            font-size: 15px;
+
+        }
+
+
+        #input::placeholder {
+
+            color: #77718b;
+
+        }
+
+
+        /* ==========================================
+           BOTONES
+           ========================================== */
+
+        button {
+
+            border: none;
+
+            cursor: pointer;
+
+            color: white;
+
+            transition:
+
+                transform 0.15s,
+
+                filter 0.15s,
+
+                background 0.15s;
+
+        }
+
+
+        button:hover {
+
+            filter: brightness(1.15);
+
+        }
+
+
+        button:active {
+
+            transform:
+                scale(0.94);
+
+        }
+
+
+        .icon-button {
+
+            width: 43px;
+
+            height: 43px;
+
+            flex-shrink: 0;
+
+            border-radius: 12px;
+
+            background:
+                #302a48;
+
+            font-size: 17px;
+
+        }
+
+
+        .send-button {
+
+            width: 48px;
+
+            height: 43px;
+
+            border-radius: 12px;
+
+            background:
+
+                linear-gradient(
+                    135deg,
+                    #884de0,
+                    #b06cff
+                );
+
+            font-size: 18px;
+
+        }
+
+
+        .recording {
+
+            background:
+                #c83e63 !important;
+
+            box-shadow:
+
+                0 0 20px
+                rgba(
+                    255,
+                    70,
+                    110,
+                    0.35
+                );
+
+        }
+
+
+        /* ==========================================
+           MOBILE
+           ========================================== */
+
+        @media (max-width: 600px) {
+
+            header {
+
+                height: 65px;
+
+                min-height: 65px;
+
+                padding:
+                    0 15px;
+
+            }
+
+
+            .logo {
+
+                width: 40px;
+
+                height: 40px;
+
+            }
+
+
+            .brand-name {
+
+                font-size: 20px;
+
+            }
+
+
+            #chat {
+
+                padding: 15px;
+
+            }
+
+
+            .message {
+
+                max-width: 88%;
+
+            }
+
+
+            .welcome h1 {
+
+                font-size: 30px;
+
+            }
+
+
+            .welcome-logo {
+
+                width: 75px;
+
+                height: 75px;
+
+                font-size: 30px;
+
+            }
+
+
+            .input-area {
+
+                padding: 10px;
+
+            }
+
+
+            #input {
+
+                font-size: 14px;
+
+            }
+
+
+            .icon-button,
+            .send-button {
+
+                width: 40px;
+
+                height: 40px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ==========================================
+         FONDO
+         ========================================== -->
+
+    <div id="background"></div>
+
+
+    <!-- ==========================================
+         APP
+         ========================================== -->
+
+    <div class="app">
+
+
+        <!-- ======================================
+             HEADER
+             ====================================== -->
+
+        <header>
+
+            <div class="brand">
+
+                <div
+                    class="logo"
+                    id="headerLogo"
+                >
+                    V
+                </div>
+
+                <div class="brand-name">
+                    VOX
+                </div>
+
+            </div>
+
+
+            <div class="status">
+
+                <div class="status-dot"></div>
+
+                ONLINE
+
+            </div>
+
+        </header>
+
+
+        <!-- ======================================
+             CHAT
+             ====================================== -->
+
+        <main id="chat">
+
+            <div
+                class="welcome"
+                id="welcome"
+            >
+
+                <div class="welcome-logo">
+                    V
+                </div>
+
+                <h1>
+                    Hola, soy VOX
+                </h1>
+
+                <p>
+                    Tu asistente personal.
+                    Pregúntame algo o dime
+                    qué quieres hacer.
+                </p>
+
+            </div>
+
+        </main>
+
+
+        <!-- ======================================
+             PARTE INFERIOR
+             ====================================== -->
+
+        <section class="input-area">
+
+
+            <!-- ==================================
+                 REPRODUCTOR
+                 ================================== -->
+
+            <div
+                class="music-player"
+                id="musicPlayer"
+            >
+
+                <button
+                    class="icon-button"
+                    onclick="previousSong()"
+                    title="Anterior"
+                >
+                    ⏮
+                </button>
+
+
+                <button
+                    class="icon-button"
+                    id="playButton"
+                    onclick="toggleMusic()"
+                    title="Reproducir / Pausar"
+                >
+                    ▶
+                </button>
+
+
+                <button
+                    class="icon-button"
+                    onclick="nextSong()"
+                    title="Siguiente"
+                >
+                    ⏭
+                </button>
+
+
+                <div class="music-info">
+
+                    <div
+                        class="music-title"
+                        id="musicTitle"
+                    >
+                        Cargando música...
+                    </div>
+
+                    <div
+                        class="music-subtitle"
+                        id="musicSubtitle"
+                    >
+                        Reproductor VOX
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ==================================
+                 AUDIO REAL
+                 ================================== -->
+
+            <audio
+                id="audioPlayer"
+                preload="metadata"
+            ></audio>
+
+
+            <!-- ==================================
+                 INPUT
+                 ================================== -->
+
+            <div class="input-box">
+
+
+                <button
+                    class="icon-button"
+                    id="micButton"
+                    onclick="toggleVoice()"
+                    title="Hablar"
+                >
+                    🎤
+                </button>
+
+
+                <input
+                    id="input"
+                    type="text"
+                    autocomplete="off"
+                    placeholder="Habla con VOX..."
+                >
+
+
+                <button
+                    class="send-button"
+                    onclick="sendMessage()"
+                    title="Enviar"
+                >
+                    ➤
+                </button>
+
+
+            </div>
+
+        </section>
+
+    </div>
+
+
+    <!-- ==========================================
+         JAVASCRIPT
+         ========================================== -->
+
+    <script>
+
+
+        /* ==========================================
+           CONFIGURACIÓN VOX
+           ========================================== */
+
+        const VOX = {
+
+            name: "VOX",
+
+            speaking: true,
+
+            music: null,
+
+            recognition: null,
+
+            listening: false
+
+        };
+
+
+        /* ==========================================
+           ELEMENTOS
+           ========================================== */
+
+        const chat =
+            document.getElementById("chat");
+
+        const input =
+            document.getElementById("input");
+
+        const micButton =
+            document.getElementById("micButton");
+
+        const welcome =
+            document.getElementById("welcome");
+
+        const audioPlayer =
+            document.getElementById("audioPlayer");
+
+        const musicTitle =
+            document.getElementById("musicTitle");
+
+        const musicSubtitle =
+            document.getElementById("musicSubtitle");
+
+        const playButton =
+            document.getElementById("playButton");
+
+
+        /* ==========================================
+           BIBLIOTECA DE MÚSICA
+           ========================================== */
+
+        const musicLibrary = [
+
+            {
+                title: "Easy",
+                file:
+                    "Easy_spotdown.org.mp3"
+            },
+
+            {
+                title: "Gravity",
+                file:
+                    "Gravity_spotdown.org.mp3"
+            },
+
+            {
+                title:
+                    "Hear My Hope (Abel's Breakdown)",
+
+                file:
+                    "Hear My Hope (Abel's Breakdown)_spotdown.org.mp3"
+            },
+
+            {
+                title: "Loser, Baby",
+
+                file:
+                    "Loser, Baby_spotdown.org.mp3"
+            },
+
+            {
+                title: "Love In A Bottle",
+
+                file:
+                    "Love In A Bottle_spotdown.org.mp3"
+            }
+
+        ];
+
+
+        let currentSong = 0;
+
+
+        /* ==========================================
+           ESCAPAR HTML
+           ========================================== */
+
+        function escapeHTML(text) {
+
+            return String(text)
+
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
+
+        }
+
+
+        /* ==========================================
+           AGREGAR MENSAJE
+           ========================================== */
+
+        function addMessage(
+            sender,
+            text,
+            type
+        ) {
+
+            if (welcome) {
+
+                welcome.style.display =
+                    "none";
+
+            }
+
+
+            const message =
+                document.createElement(
+                    "div"
+                );
+
+
+            message.className =
+                `message ${type}`;
+
+
+            message.innerHTML = `
+
+                <div class="sender">
+                    ${escapeHTML(sender)}
+                </div>
+
+                <div>
+                    ${escapeHTML(text)}
+                </div>
+
+            `;
+
+
+            chat.appendChild(message);
+
+
+            chat.scrollTop =
+                chat.scrollHeight;
+
+        }
+
+
+        /* ==========================================
+           VOZ
+           ========================================== */
+
+        function speak(text) {
+
+            if (!VOX.speaking) {
+
+                return;
+
+            }
+
+
+            if (
+                !("speechSynthesis" in window)
+            ) {
+
+                return;
+
+            }
+
+
+            window.speechSynthesis.cancel();
+
+
+            const utterance =
+                new SpeechSynthesisUtterance(
+                    text
+                );
+
+
+            utterance.lang =
+                "es-ES";
+
+
+            utterance.rate =
+                1;
+
+
+            utterance.pitch =
+                1;
+
+
+            window.speechSynthesis.speak(
+                utterance
+            );
+
+        }
+
+
+        /* ==========================================
+           RESPONDER
+           ========================================== */
+
+        function respond(text) {
+
+            const command =
+                text
+                    .toLowerCase()
+                    .trim();
+
+
+            if (
+                command === "hola" ||
+                command === "hola vox" ||
+                command === "hey vox" ||
+                command === "buenas"
+            ) {
+
+                return (
+                    "¡Hey! Aquí estoy. " +
+                    "¿Qué hacemos?"
+                );
+
+            }
+
+
+            if (
+                command.includes(
+                    "quién eres"
+                ) ||
+                command.includes(
+                    "quien eres"
+                )
+            ) {
+
+                return (
+                    "Soy VOX, tu asistente personal. " +
+                    "Todavía estoy en versión 0.1, " +
+                    "pero vamos a hacerme crecer poco a poco."
+                );
+
+            }
+
+
+            if (
+                command === "ayuda" ||
+                command.includes(
+                    "qué puedes hacer"
+                ) ||
+                command.includes(
+                    "que puedes hacer"
+                )
+            ) {
+
+                return (
+                    "Por ahora puedo conversar, " +
+                    "usar mi voz y reproducir tu música. " +
+                    "También estoy conectado con Gemini."
+                );
+
+            }
+
+
+            if (
+                command.includes(
+                    "qué hora"
+                ) ||
+                command.includes(
+                    "que hora"
+                )
+            ) {
+
+                const ahora =
+                    new Date();
+
+
+                return (
+                    "Son las " +
+
+                    ahora.toLocaleTimeString(
+                        "es-GT",
+                        {
+                            hour:
+                                "2-digit",
+
+                            minute:
+                                "2-digit"
+                        }
+                    )
+
+                    + "."
+                );
+
+            }
+
+
+            if (
+                command.includes(
+                    "qué día"
+                ) ||
+                command.includes(
+                    "que dia"
+                ) ||
+                command.includes(
+                    "fecha"
+                )
+            ) {
+
+                return (
+                    "Hoy es " +
+
+                    new Date()
+                        .toLocaleDateString(
+                            "es-GT",
+                            {
+                                weekday:
+                                    "long",
+
+                                year:
+                                    "numeric",
+
+                                month:
+                                    "long",
+
+                                day:
+                                    "numeric"
+                            }
+                        )
+
+                    + "."
+                );
+
+            }
+
+
+            if (
+                command.includes(
+                    "música"
+                ) ||
+                command.includes(
+                    "musica"
+                ) ||
+                command.includes(
+                    "reproduce"
+                ) ||
+                command.includes(
+                    "reproducir"
+                )
+            ) {
+
+                document
+                    .getElementById(
+                        "musicPlayer"
+                    )
+                    .style.display =
+                    "flex";
+
+
+                loadSong(
+                    currentSong,
+                    true
+                );
+
+
+                return (
+                    "Claro 🎵. " +
+                    "Voy a reproducir tu música."
+                );
+
+            }
+
+
+            if (
+                command.includes(
+                    "pausa"
+                ) ||
+                command.includes(
+                    "pausar"
+                )
+            ) {
+
+                if (
+                    !audioPlayer.paused
+                ) {
+
+                    audioPlayer.pause();
+
+                    playButton.textContent =
+                        "▶";
+
+                }
+
+
+                return (
+                    "Música pausada."
+                );
+
+            }
+
+
+            if (
+                command.includes(
+                    "siguiente"
+                )
+            ) {
+
+                nextSong();
+
+
+                return (
+                    "Pasando a la siguiente canción 🎵."
+                );
+
+            }
+
+
+            if (
+                command.includes(
+                    "anterior"
+                )
+            ) {
+
+                previousSong();
+
+
+                return (
+                    "Volviendo a la canción anterior 🎵."
+                );
+
+            }
+
+
+            if (
+                command.includes(
+                    "gracias"
+                )
+            ) {
+
+                return (
+                    "De nada. " +
+                    "Para eso estoy."
+                );
+
+            }
+
+
+            if (
+                command.includes(
+                    "cómo estás"
+                ) ||
+                command.includes(
+                    "como estas"
+                )
+            ) {
+
+                return (
+                    "Funcionando perfectamente. " +
+                    "¿Y tú qué quieres hacer?"
+                );
+
+            }
+
+
+            return (
+                "Todavía no sé hacer eso. " +
+                "Pero podemos enseñarme esa función."
+            );
+
+        }
+
+
+        /* ==========================================
+           ENVIAR MENSAJE
+           ========================================== */
+
+        async function sendMessage() {
+
+            const text =
+                input.value.trim();
+
+
+            if (!text) {
+
+                return;
+
+            }
+
+
+            addMessage(
+                "TÚ",
+                text,
+                "user"
+            );
+
+
+            input.value = "";
+
+
+            /*
+             * Primero intentamos comandos locales.
+             */
+
+            const command =
+                text
+                    .toLowerCase()
+                    .trim();
+
+
+            const comandosLocales = [
+
+                "hola",
+                "hola vox",
+                "hey vox",
+                "buenas",
+                "quien eres",
+                "quién eres",
+                "ayuda",
+                "que puedes hacer",
+                "qué puedes hacer",
+                "qué hora",
+                "que hora",
+                "qué día",
+                "que dia",
+                "fecha",
+                "música",
+                "musica",
+                "reproduce",
+                "reproducir",
+                "pausa",
+                "pausar",
+                "siguiente",
+                "anterior",
+                "gracias",
+                "cómo estás",
+                "como estas"
+
+            ];
+
+
+            const esComandoLocal =
+                comandosLocales.some(
+                    comando =>
+                        command.includes(
+                            comando
+                        )
+                );
+
+
+            if (esComandoLocal) {
+
+                setTimeout(
+                    () => {
+
+                        const response =
+                            respond(text);
+
+
+                        addMessage(
+                            "VOX",
+                            response,
+                            "vox"
+                        );
+
+
+                        speak(response);
+
+                    },
+                    250
+                );
+
+
+                return;
+
+            }
+
+
+            /*
+             * Si no es comando local,
+             * enviamos el mensaje a Flask/Gemini.
+             */
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/api/chat",
+                        {
+                            method:
+                                "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body:
+                                JSON.stringify({
+                                    message:
+                                        text
+                                })
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                const respuesta =
+                    data.response ||
+                    "No recibí respuesta de Gemini.";
+
+
+                addMessage(
+                    "VOX",
+                    respuesta,
+                    "vox"
+                );
+
+
+                speak(respuesta);
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Error:",
+                    error
+                );
+
+
+                const mensaje =
+                    "No pude conectarme con Gemini.";
+
+
+                addMessage(
+                    "VOX",
+                    mensaje,
+                    "vox"
+                );
+
+
+                speak(mensaje);
+
+            }
+
+        }
+
+
+        /* ==========================================
+           ENTER
+           ========================================== */
+
+        input.addEventListener(
+            "keydown",
+            function(event) {
+
+                if (
+                    event.key === "Enter"
+                ) {
+
+                    sendMessage();
+
+                }
+
+            }
+        );
+
+
+        /* ==========================================
+           RECONOCIMIENTO DE VOZ
+           ========================================== */
+
+        function setupRecognition() {
+
+            const Recognition =
+                window.SpeechRecognition ||
+                window.webkitSpeechRecognition;
+
+
+            if (!Recognition) {
+
+                return null;
+
+            }
+
+
+            const recognition =
+                new Recognition();
+
+
+            recognition.lang =
+                "es-ES";
+
+
+            recognition.continuous =
+                false;
+
+
+            recognition.interimResults =
+                false;
+
+
+            recognition.onstart =
+                function() {
+
+                    VOX.listening =
+                        true;
+
+
+                    micButton.classList.add(
+                        "recording"
+                    );
+
+                };
+
+
+            recognition.onend =
+                function() {
+
+                    VOX.listening =
+                        false;
+
+
+                    micButton.classList.remove(
+                        "recording"
+                    );
+
+                };
+
+
+            recognition.onresult =
+                function(event) {
+
+                    const text =
+                        event
+                            .results[0][0]
+                            .transcript;
+
+
+                    input.value =
+                        text;
+
+
+                    sendMessage();
+
+                };
+
+
+            recognition.onerror =
+                function(error) {
+
+                    console.error(
+                        "Reconocimiento:",
+                        error
+                    );
+
+
+                    VOX.listening =
+                        false;
+
+
+                    micButton.classList.remove(
+                        "recording"
+                    );
+
+                };
+
+
+            return recognition;
+
+        }
+
+
+        VOX.recognition =
+            setupRecognition();
+
+
+        /* ==========================================
+           BOTÓN DE VOZ
+           ========================================== */
+
+        function toggleVoice() {
+
+            if (!VOX.recognition) {
+
+                const mensaje =
+                    "Tu navegador no permite reconocimiento de voz.";
+
+
+                addMessage(
+                    "VOX",
+                    mensaje,
+                    "vox"
+                );
+
+
+                speak(mensaje);
+
+
+                return;
+
+            }
+
+
+            if (
+                VOX.listening
+            ) {
+
+                VOX.recognition.stop();
+
+                return;
+
+            }
+
+
+            VOX.recognition.start();
+
+        }
+
+
+        /* ==========================================
+           CARGAR CANCIÓN
+           ========================================== */
+
+        function loadSong(
+            index,
+            autoplay = false
+        ) {
+
+            if (
+                !musicLibrary.length
+            ) {
+
+                musicTitle.textContent =
+                    "No hay música";
+
+                return;
+
+            }
+
+
+            if (
+                index < 0
+            ) {
+
+                index =
+                    musicLibrary.length - 1;
+
+            }
+
+
+            if (
+                index >=
+                musicLibrary.length
+            ) {
+
+                index = 0;
+
+            }
+
+
+            currentSong =
+                index;
+
+
+            const song =
+                musicLibrary[
+                    currentSong
+                ];
+
+
+            const url =
+                "/assets/music/" +
+                encodeURIComponent(
+                    song.file
+                );
+
+
+            console.log(
+                "🎵 Cargando:",
+                url
+            );
+
+
+            audioPlayer.src =
+                url;
+
+
+            audioPlayer.load();
+
+
+            musicTitle.textContent =
+                song.title;
+
+
+            musicSubtitle.textContent =
+                "VOX • " +
+                (currentSong + 1) +
+                " de " +
+                musicLibrary.length;
+
+
+            if (autoplay) {
+
+                audioPlayer
+                    .play()
+                    .then(
+                        function() {
+
+                            VOX.music =
+                                audioPlayer;
+
+                            playButton.textContent =
+                                "⏸";
+
+                        }
+                    )
+                    .catch(
+                        function(error) {
+
+                            console.error(
+                                "❌ Error reproduciendo:",
+                                error
+                            );
+
+
+                            playButton.textContent =
+                                "▶";
+
+
+                            musicSubtitle.textContent =
+                                "Pulsa ▶ para reproducir";
+
+                        }
+                    );
+
+            }
+
+            else {
+
+                playButton.textContent =
+                    "▶";
+
+            }
+
+        }
+
+
+        /* ==========================================
+           REPRODUCIR / PAUSAR
+           ========================================== */
+
+        function toggleMusic() {
+
+            if (
+                !audioPlayer.src
+            ) {
+
+                loadSong(
+                    currentSong,
+                    false
+                );
+
+            }
+
+
+            if (
+                audioPlayer.paused
+            ) {
+
+                audioPlayer
+                    .play()
+                    .then(
+                        function() {
+
+                            VOX.music =
+                                audioPlayer;
+
+                            playButton.textContent =
+                                "⏸";
+
+                        }
+                    )
+                    .catch(
+                        function(error) {
+
+                            console.error(
+                                "❌ No se pudo reproducir:",
+                                error
+                            );
+
+                        }
+                    );
+
+            }
+
+            else {
+
+                audioPlayer.pause();
+
+                playButton.textContent =
+                    "▶";
+
+            }
+
+        }
+
+
+        /* ==========================================
+           SIGUIENTE
+           ========================================== */
+
+        function nextSong() {
+
+            currentSong++;
+
+
+            if (
+                currentSong >=
+                musicLibrary.length
+            ) {
+
+                currentSong = 0;
+
+            }
+
+
+            loadSong(
+                currentSong,
+                true
+            );
+
+        }
+
+
+        /* ==========================================
+           ANTERIOR
+           ========================================== */
+
+        function previousSong() {
+
+            currentSong--;
+
+
+            if (
+                currentSong < 0
+            ) {
+
+                currentSong =
+                    musicLibrary.length - 1;
+
+            }
+
+
+            loadSong(
+                currentSong,
+                true
+            );
+
+        }
+
+
+        /* ==========================================
+           CUANDO TERMINA
+           ========================================== */
+
+        audioPlayer.addEventListener(
+            "ended",
+            function() {
+
+                nextSong();
+
+            }
+        );
+
+
+        /* ==========================================
+           AUDIO ERROR
+           ========================================== */
+
+        audioPlayer.addEventListener(
+            "error",
+            function() {
+
+                const song =
+                    musicLibrary[
+                        currentSong
+                    ];
+
+
+                console.error(
+                    "❌ No se pudo cargar:",
+                    song.file
+                );
+
+
+                musicSubtitle.textContent =
+                    "Error al cargar la canción";
+
+            }
+        );
+
+
+        /* ==========================================
+           AUDIO PLAY
+           ========================================== */
+
+        audioPlayer.addEventListener(
+            "play",
+            function() {
+
+                playButton.textContent =
+                    "⏸";
+
+            }
+        );
+
+
+        /* ==========================================
+           AUDIO PAUSE
+           ========================================== */
+
+        audioPlayer.addEventListener(
+            "pause",
+            function() {
+
+                playButton.textContent =
+                    "▶";
+
+            }
+        );
+
+
+        /* ==========================================
+           INICIO
+           ========================================== */
+
+        window.addEventListener(
+            "load",
+            function() {
+
+                /*
+                 * Cargamos la primera canción,
+                 * pero NO la reproducimos automáticamente.
+                 * El navegador puede bloquear autoplay.
+                 */
+
+                loadSong(
+                    0,
+                    false
+                );
+
+
+                setTimeout(
+                    function() {
+
+                        addMessage(
+                            "VOX",
+                            "Sistema VOX Web v0.1 iniciado.",
+                            "vox"
+                        );
+
+                    },
+                    700
+                );
+
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>
+```
